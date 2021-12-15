@@ -3,7 +3,7 @@
 - 🌱 I’m currently learning AWS Solution Archicture
 - 💞️ I’m looking to collaborate on Cloudformation Architectures
 - 📫 How to reach me jaredl88@hotmail.com
-
+Code for lambda function taken from https://github.com/jspruance/cloudpath-tutorials/blob/master/aws-serverless/aws-s3-lambda-tutorial/putUserDataFromS3/index.js
 <!---
 jaredl88/jaredl88 is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 You can click the Preview link to take a look at your changes.
