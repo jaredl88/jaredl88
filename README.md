@@ -1,11 +1,1 @@
-- 👋 Hi, I’m @jaredl88
-- 👀 I’m interested in Cloud Architecture
-- 🌱 I’m currently learning AWS Solution Archicture
-- 💞️ I’m looking to collaborate on Cloudformation Architectures
-- 📫 How to reach me jaredl88@hotmail.com
-
-<!---
-jaredl88/jaredl88 is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
-You can click the Preview link to take a look at your changes.
---->
-
+This creates a VPC with a public and private subnet as well as a NAT gateway and Internet Gateway in the public subnet. An ec2 instance is also created in the private subnet.
