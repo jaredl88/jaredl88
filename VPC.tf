@@ -68,4 +68,22 @@ resource "aws_subnet" "privatesubnet"{
      instance_type = "t2.micro"
      private_ip =  "10.0.112.0"
      subnet_id = aws_subnet.privatesubnet.id
+     security_group = aws_security_group.NATGroup.id
+ }
+ resource "aws_security_group" "NATGroup"{
+  name = "allow_nat"
+  vpc_id  = aws_vpc.Main.id
+   
+   ingress {
+    from_port  = 443
+    to_port    = 443
+    protocol   = "tcp"
+    cidr_blocks = [aws_vpc.Main.cidr_block]
+   }
+   egress {
+       from_port = 443
+       to_port   = aws_eip.NATElasticIP.id
+       protocol  = "tcp"
+       cidr_block = ["0.0.0.0/0"]
+   }
  }
