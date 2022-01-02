@@ -20,6 +20,7 @@ variable "private_subnet_cidr" {
 resource "aws_vpc" "Main" {
     cidr_block        = "${var.main_vpc_cidr}"
     instance_tenancy  = "default"
+    enable_dns_hostnames = true
 
 }
 resource "aws_internet_gateway" "IGateWay"{
@@ -39,6 +40,7 @@ resource "aws_subnet" "privatesubnet"{
     cidr_block = "0.0.0.0/0"              
     gateway_id = aws_internet_gateway.IGateWay.id
      }
+
  }
  resource "aws_route_table" "PrivateRouteTable" {    
    vpc_id = aws_vpc.Main.id
@@ -58,32 +60,37 @@ resource "aws_subnet" "privatesubnet"{
  resource "aws_eip" "NATElasticIP"{
      vpc = true
  }
+
  resource "aws_nat_gateway" "NATGateway"{
-     allocation_id = aws_eip.NATElasticIP.id
-     subnet_id = aws_subnet.publicsubnet.id
+  allocation_id = aws_eip.NATElasticIP.id
+  subnet_id = aws_subnet.publicsubnet.id
  }
- 
+
+output "nat_gateway_ip"{
+    value = aws_eip.NATElasticIP.public_ip
+}
+
  resource "aws_instance" "server"{
      ami    = "ami-0ed9277fb7eb570c9"
      instance_type = "t2.micro"
      private_ip =  "10.0.112.0"
      subnet_id = aws_subnet.privatesubnet.id
-     security_group = aws_security_group.NATGroup.id
+     vpc_security_group_ids = [aws_security_group.NATGroup.id]
  }
  resource "aws_security_group" "NATGroup"{
   name = "allow_nat"
   vpc_id  = aws_vpc.Main.id
    
    ingress {
-    from_port  = 443
-    to_port    = 443
+    from_port  = 22
+    to_port    = 22
     protocol   = "tcp"
-    cidr_blocks = [aws_vpc.Main.cidr_block]
+    cidr_blocks = ["0.0.0.0/0"]
    }
    egress {
-       from_port = 443
-       to_port   = aws_eip.NATElasticIP.id
-       protocol  = "tcp"
-       cidr_block = ["0.0.0.0/0"]
+       from_port = 0
+       to_port   = 0
+       protocol  =  "-1"
+       cidr_blocks = ["0.0.0.0/0"]
    }
  }
