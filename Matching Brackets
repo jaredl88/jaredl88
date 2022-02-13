@@ -1,0 +1,26 @@
+const bracket = ['{','(','[','}',')',']']
+const openB = ['{','(','['];
+const closeB = ['}',')',']'];
+let matchingB = { '{': '}',
+                  '(': ')',
+                  '[':']'
+                };
+
+ 
+
+
+export const isPaired = (inputString) => {
+  var stack =[];
+for (let i = 0; i<inputString.length; i++){
+  if (openB.includes(inputString[i])){
+     stack.push(inputString[i]);
+  }
+  if (closeB.includes(inputString[i])){
+      let last = stack.pop();
+    if(inputString[i] !== matchingB[last]){ return false;}
+  }
+    
+}
+  if (stack.length !== 0) return false;
+  return true;
+}
