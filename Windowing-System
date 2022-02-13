@@ -1,0 +1,76 @@
+export function Size(width = 80, height = 60 ){
+    this.width = width;
+    this.height = height;
+  }
+ 
+Size.prototype.resize = function (newWidth, newHeight){
+    this.width = newWidth;
+    this.height = newHeight;
+  return this.width, this.height;
+  }
+ 
+ 
+ 
+ 
+ 
+export function Position(x=0, y=0){
+    this.x = x;
+    this.y = y;
+  }
+ 
+  Position.prototype.move = function(newX, newY){
+    this.x = newX;
+    this.y = newY;
+    return this.x, this.y;
+  }
+ 
+ 
+ 
+ 
+ export class ProgramWindow {
+  constructor() {
+    this.screenSize = new Size(800,600);
+    this.size = new Size();
+    this.position = new Position();
+}
+  resize(newSize)
+   {
+     Object.entries(newSize).forEach(([element, value]) => {
+       if(value > 1){
+         const position = this.position[element === 'width' ? 'x' : 'y'];
+         const screenSize = this.screenSize[element];
+         const result = position + this.size[element] + value;
+         console.log(element);
+         console.log()
+         this.size[element] = result > screenSize ? screenSize - position : value;
+       }
+       else
+         this.size[element] = 1;
+     });
+   }
+ 
+   move(newPosition)
+   {
+   Object.entries(newPosition).forEach(([element, value]) => {
+     if(value > 0){
+      const size = this.size[element === 'x' ? 'width' : 'height'];
+      const screenSize = this.screenSize[element === 'x' ? 'width' : 'height'];
+      const result = size + value;
+      const diff =  result - screenSize;
+      this.position[element] = result > screenSize ? value - diff : value;
+     }
+     else
+       this.position[element] = 0;
+   });
+ 
+   }
+ }
+ 
+export function changeWindow(ProgramWindow){
+  const size = new Size(400,300);
+ const position = new Position(100,150); 
+  ProgramWindow.resize(size);
+  ProgramWindow.move(position);
+  return ProgramWindow;
+}
+  
