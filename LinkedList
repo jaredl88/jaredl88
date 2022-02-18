@@ -1,0 +1,117 @@
+
+class Node {
+  constructor(value) {
+    this.value = value;
+    this.prev = null;
+    this.next = null;
+  }
+}
+export class LinkedList {
+  constructor() {
+    this.length = 0;
+    this.head = null;
+    this.tail = null;
+  }
+  push(value) {
+    const newNode = new Node(value);
+    console.log(newNode);
+    if(!this.length){
+      this.head = newNode;
+      this.tail = newNode;
+    }else{
+      this.tail.next = newNode; 
+      console.log(this.tail.next);
+      newNode.prev = this.tail;
+      this.tail = newNode;
+    }
+    this.length += 1;
+    return newNode;
+  }
+
+  pop() {
+    if (!this.length){
+      return null;
+    } else {
+      const nodeGone = this.tail;
+   if (this.length === 1)
+   {
+    this.head = null;
+     this.tail = null;
+   }else {
+     this.tail = this.tail.prev;
+     this.tail.next = null;
+     nodeGone.prev = null;
+   }
+    this.length -= 1;
+   // console.log(nodeGone.value);
+    return nodeGone.value;
+  }
+  }
+  shift() {
+     if (!this.length){
+      return null;
+    } else {
+      const nodeGone = this.head;
+   if (this.length === 1)
+   {
+    this.head = null;
+    this.tail = null;
+   }else {
+     //sets head to what the 2nd node was
+     this.head = this.head.next;
+     //removes connection from old head to new head
+     this.head.next = null;
+    //removes connection from old head to new head
+     nodeGone.next = null;
+   }
+    this.length -= 1;
+   // console.log(nodeGone.value);
+    return nodeGone.value;
+  }
+  }
+  
+
+  unshift(value) {
+     const newNode = new Node(value);
+    
+    if(!this.length){
+      this.head = newNode;
+      this.tail = newNode;
+    }else{
+      this.head.next = newNode; 
+      //sets last head to next node
+      newNode.next = this.head;
+      //sets head to new node
+      this.head = newNode;
+    }
+    this.length += 1;
+    return newNode;
+  }
+  
+
+  delete(value) {
+    if (!this.length ){
+      return;
+    }else{
+      var currNode = this.head;
+	  while(currNode.value != value)
+        {
+          if(currNode.next !== null){
+		currNode = currNode.next;
+          } else return;
+	}
+    
+      const nodeGone = currNode;
+      console.log(nodeGone);
+      if (this.head === nodeGone) this.head = nodeGone.next;
+      if (this.tail === nodeGone) this.tail = nodeGone.prev;
+      if (nodeGone.next !== null) nodeGone.next.prev = nodeGone.prev;
+      if (nodeGone.prev !== null)  nodeGone.prev.next = nodeGone.next;
+    }
+      this.length -= 1;
+    }
+    
+  count() {
+    return this.length;
+  }
+}
