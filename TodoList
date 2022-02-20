@@ -1,0 +1,61 @@
+const AWS = require('aws-sdk');
+
+AWS.config.update({
+  region: 'us-east-1'
+
+})
+const util = require('../utils/util');
+const dynamodb = new AWS.DynamoDB.DocumentClient();
+const userTable = 'todoUsers';
+
+
+async function addtodo(event){
+    const userName = 'jared';
+    const taskName = event.taskName;
+    const taskText = event.taskText;
+    if(!taskName || !taskText)
+    {
+         return util.buildResponse(401,{
+            message: 'You are missing one or more required feilds'
+        })
+    }
+
+  const task = {
+      user: userName,
+      taskName: taskName,
+      taskText: taskText
+  }  
+   const saveTaskResponse = await saveTask(task);
+   if(!saveTaskResponse){
+        return util.buildResponse(503,{
+            message: 'Server Error, Please try again later'
+        })
+    }
+    return util.buildResponse(200, {
+        taskName: taskName
+    });
+    
+ async function saveTask (task){
+    const params = {
+        TableName: userTable,
+       Key:{
+            user: task.user,
+        },
+        UpdateExpression: "set user.taskName = :n, user.taskText = :t",
+        ExpressionAttributeValues:{
+            "n":task.taskName,
+            "t":task.taskText
+        },
+        ReturnValues:"UPDATED_NEW"
+    };
+    return await dynamodb.update(params).promise().then(response => {
+ return response.Item;
+}, error =>{
+    console.log('There is an error getting task: ', error);
+})
+     
+ }
+ 
+}
+
+module.exports.addtodo = addtodo;
