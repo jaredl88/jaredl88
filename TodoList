@@ -19,63 +19,43 @@ async function addtodo(event){
             message: 'You are missing one or more required feilds'
         })
     }
-   // const duserTask = await getTask(userName,taskName);
-   // if(duserTask){
-       // return util.buildResponse(401,{
-      //      message: 'Task name is already being used, choose a different task name'
-       // })
-   // }   
-  const tsk = {
+      const tsk = {
       username: userName,
       tName: tName,
       tTxt: tTxt
   }  
-   const saveTaskResponse = await saveTask(tsk);
-   if(!saveTaskResponse){
-        return util.buildResponse(503,{
-            message: 'Server Error, Please try again later'
-        })
-    }
-    return util.buildResponse(200, {
-        tName: tName
-    });
-    
-//async function getTask(task){
-    //const params = {
-      //  TableName: userTable,
-      // Key:{
-      //      user: userName
-     //   },
-   // }
-//return await dynamodb.get(params).promise().then(response => {
- //return response.Item;
-//}, error =>{
-   // console.log('There is an error getting Task: ', error);
-//})
+    //const duserTask = await getTask(tsk);
+   //if(duserTask === true){
+     //  return util.buildResponse(401,{
+      //     message: 'Task name is already being used, choose a different task name'
+       // })
+       // }   
+//console.log(duserTask);
+  // const saveTaskResponse = await saveTask(tsk);
 
-//}
+   //if(!saveTaskResponse){
+    //    return util.buildResponse(503,{
+         //  message: 'Server Error, Please try again later'
+     //   })
+   // }
+   // return util.buildResponse(200, {
+    //    tName: tName
+   // });
+    
 
  async function saveTask (tsk){
-     var key = {"username": tsk.username};
     const params = {
             TableName: userTable,
             Key: {
                 "username": tsk.username,
             },
-            UpdateExpression: "SET #ri = list_append(if_not_exists(#ri, :empty_list), :vals)",
+            UpdateExpression: "SET #TaskName = :val",
             ExpressionAttributeNames: {
-                "#ri": "tasks"
+                "#TaskName": tsk.tName,
             },
             ExpressionAttributeValues: {
-                ":vals": [ 
-                {
-                   "TaskName": tsk.tName,
-                    "TaskText": tsk.tTxt
-                }
-               ],
-                ":empty_list":[]
-            },
-            ReturnValues: 'ALL_NEW'
+                ":val": tsk.tTxt
+            }
         };
     return await dynamodb.update(params).promise().then(response => {
  return tsk;
@@ -84,6 +64,7 @@ async function addtodo(event){
 });
      
  }
+
  
 }
 
