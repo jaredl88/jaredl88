@@ -12,23 +12,20 @@ const userTable = 'todoUsers';
 async function getTask(){
     const userName = 'jared';
     const userTable = 'todoUsers';
+    try {
+        var params = {
+            KeyConditionExpression: 'username = :user',
+            ExpressionAttributeValues: {
+                ':user': userName
+            },
+            TableName: userTable
+        };
+        var result = await dynamodb.query(params).promise()
+        return JSON.stringify(result);
+    } catch (error) {
+        console.error(error);
+    }
 
-   const params = {
-    Key:{
-        "username": userName
-    },
-    TableName: userTable,
-    ConsistentRead: true,
-};
- return await dynamodb.update(params).promise().then(response => {
- return response;
-}, error =>{
-    console.log('There is an error getting task: ', error);
-});
-
-    
 
 }
-
-
 module.exports.getTask = getTask;
