@@ -36,7 +36,10 @@ async function deleteT(tsk){
         Key: {
             "username": tsk.username,
         },
-        UpdateExpression: "REMOVE taskName",
+        UpdateExpression: "REMOVE #taskName",
+        ExpressionAttributeNames: {
+          "#taskName": taskName  
+        },
         ReturnValues: "ALL_OLD"
     };
     return await dynamodb.update(params).promise().then(response => {
@@ -48,3 +51,4 @@ async function deleteT(tsk){
 }
 }
 module.exports.deleteTask = deleteTask;
+
