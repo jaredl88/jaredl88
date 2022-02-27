@@ -26,7 +26,7 @@ async function login(user){
            message: 'User does not exist, Please enter a valid username'
        });
 
-   if (!bcryptjs.compare(userPassword, dUser.Password))return util.buildResponse(401,{
+   if (!bcryptjs.compareSync(userPassword, dUser.Password))return util.buildResponse(401,{
     message: 'Invalid password'
 })
  const userInfo = {
