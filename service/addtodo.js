@@ -10,7 +10,7 @@ const userTable = 'todoUsers';
 const getT = require('./getTasks');
 
 async function addtodo(event){
-    const userName = 'jared';
+    const userName = 'jared1';
     const tName = event.tName;
     const tTxt = event.tTxt;
     if(!tName || !tTxt)

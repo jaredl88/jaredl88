@@ -14,8 +14,9 @@ async function register(event){
     const userName = event.username;
     const userEmail = event.email;
     const userPassword = event.password;
+    const name = event.name;
 
-    if(!userName || !userEmail || !userPassword)
+    if(!userName || !userEmail || !userPassword || !name)
     {
          return util.buildResponse(401,{
             message: 'You are missing one or more required feilds'
@@ -32,6 +33,7 @@ async function register(event){
     const hashpassword = await bcryptjs.hash(userPassword, saltRounds);
     
       const user = {
+      name: name,
       username: userName,
       useremail: userEmail,
       password: hashpassword
@@ -60,6 +62,7 @@ async function register(event){
         console.log('There is an error getting user: ', error);
     })
     }
+
  async function saveUser(user){
  
    
@@ -68,13 +71,15 @@ async function register(event){
             Key: {
                 "username": user.username
             },
-            UpdateExpression: "SET #UserName = :val, #UserEmail = :valE, #UserPassword = :valP",
+            UpdateExpression: "SET #Name = :valN, #UserName = :val, #UserEmail = :valE, #UserPassword = :valP",
             ExpressionAttributeNames: {
+                "#Name": "Name",
                 "#UserName": "Username",
                 "#UserEmail": "Email",
                 "#UserPassword": "Password"
             },
             ExpressionAttributeValues: {
+                ":valN": user.name,
                 ":val": user.username,
                 ":valE": user.useremail,
                 ":valP": user.password
