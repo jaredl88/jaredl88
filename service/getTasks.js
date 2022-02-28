@@ -8,7 +8,7 @@ const util = require('../utils/util');
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const userTable = 'todoUsers';
 
-
+//Checks for response of the query function amd returns the response errors if no response
 async function getTask(){
     
     const getResponse = await getTasks();
@@ -23,6 +23,7 @@ async function getTask(){
 });
 
 }
+//Uses the params of using the user key to query the list of task present under that key
 async function getTasks(){
     const userName = 'jared';
     const userTable = 'todoUsers';
