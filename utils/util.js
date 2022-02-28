@@ -1,3 +1,5 @@
+
+//Allows body to go through the API using the correct headers
 function buildResponse(statusCode, body){
   return {
        statusCode: statusCode,
