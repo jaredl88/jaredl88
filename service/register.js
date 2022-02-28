@@ -15,7 +15,7 @@ async function register(event){
     const userEmail = event.email;
     const userPassword = event.password;
     const name = event.name;
-
+  //Checks to make sure all fields have been entered
     if(!userName || !userEmail || !userPassword || !name)
     {
          return util.buildResponse(401,{
@@ -23,12 +23,14 @@ async function register(event){
         })
 
     }
+  //checks db to make sure the user name does not already exist
     const dUser = await getUser(userName.toLowerCase().trim());
     if(dUser && dUser.username){
         return util.buildResponse(401,{
             message: 'Username is already being used, choose a different username'
         })
     }
+    //hashes and salts password to make it unreadable inside the db pws that are the same will also have different hash values
     const saltRounds = 10;
     const hashpassword = await bcryptjs.hash(userPassword, saltRounds);
     
@@ -38,7 +40,7 @@ async function register(event){
       useremail: userEmail,
       password: hashpassword
   }  
- 
+  //Checks to see if the save function is successful
    const saveTaskResponse = await saveUser(user);
    if(!saveTaskResponse){
         return util.buildResponse(503,{
@@ -62,7 +64,7 @@ async function register(event){
         console.log('There is an error getting user: ', error);
     })
     }
-
+//Save registration information in the database
  async function saveUser(user){
  
    
