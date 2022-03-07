@@ -8,7 +8,7 @@ const util = require('../utils/util');
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const userTable = 'todoUsers';
 
-//Checks for response of the query function amd returns the response errors if no response
+
 async function getTask(){
     
     const getResponse = await getTasks();
@@ -23,24 +23,24 @@ async function getTask(){
 });
 
 }
-//Uses the params of using the user key to query the list of task present under that key
 async function getTasks(){
     const userName = 'jared';
     const userTable = 'todoUsers';
-    try {
-        var params = {
+  
+        const params = {
             KeyConditionExpression: 'username = :user',
             ExpressionAttributeValues: {
                 ':user': userName
             },
             TableName: userTable
         };
-        var result = await dynamodb.query(params).promise()
-        return JSON.stringify(result.Items);
-    } catch (error) {
-        console.error(error);
-    }
-
+        return await dynamodb.query(params).promise().then(response => {
+ return response;
+}, error =>{
+    console.log('There is an error getting task: ', error);
+});
+        
+    
 
 }
 module.exports.getTask = getTask;
