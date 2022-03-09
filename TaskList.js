@@ -25,7 +25,7 @@ function TaskList () {
           const requestConfig = {
               //store as envirnment variable later
               headers: {
-             'x-api-key': '341SCwBxjy6KSOErzBmCI4mteixN90yC7L8OD37O'
+             'x-api-key': ''
               }
             }
           const response = await axios.get(apiUrl,requestConfig);
