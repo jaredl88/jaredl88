@@ -1,26 +1,29 @@
-import React, { useEffect, useState } from "react";
-import axios from 'axios';
 import "./TaskList.css";
 import {getUser, resetUserSession} from './service/auth';
-const apiUrl =  '';
-const apiDeleteUrl =    '';
+import React, { useEffect, useState } from "react";
+import axios from 'axios';
+const apiUrl = 'https://j2b30glms2.execute-api.us-east-1.amazonaws.com/prod/gettasks';
+const apiDeleteUrl = 'https://j2b30glms2.execute-api.us-east-1.amazonaws.com/prod/deletetask';
    
-function TaskList () {
+const TaskList = () => {
     const [getResult, setGetResult] = useState([]);
     const [errorMessage, setErrorMessage] = useState(null);
     const [message, setMessage] = useState(null);
     const [tName, setTName] = useState('');
-
+    const userName = getUser(); 
+    const username= userName.username;
     const deleteTask = (event)=>{
       event.preventDefault();
       
       const requestConfig = {
         //store as envirnment variable later
         headers: {
-       'x-api-key': ''
+          'x-api-key': '341SCwBxjy6KSOErzBmCI4mteixN90yC7L8OD37O',
         }
       }
+
       const requestBody = {
+        username: username,
         tName: tName
       }
         const response = axios.post(apiDeleteUrl, requestBody, requestConfig);
@@ -45,10 +48,14 @@ function TaskList () {
           const requestConfig = {
               //store as envirnment variable later
               headers: {
-             'x-api-key': ''
+                'x-api-key': '341SCwBxjy6KSOErzBmCI4mteixN90yC7L8OD37O',
               }
             }
-          const response = await axios.get(apiUrl,requestConfig);
+            
+            const requestBody = {
+              username: username
+            };
+          const response = await axios.post(apiUrl,requestBody,requestConfig);
           if(!response){
               setErrorMessage('There was an error retrieving tasks')
           }
@@ -62,7 +69,7 @@ function TaskList () {
           <div className="TaskList">
              {
            
-          taskArray && taskArray.map(taskArrays =>{ if (taskArrays[0] !== 'username'){
+          taskArray && taskArray.map(taskArrays =>{ if (taskArrays[0] !== 'username' && taskArrays[0] !== 'Username'){
             return(
               <form onSubmit={deleteTask}>
               <div key={taskArrays[0]} style={{alignItems:'center',margin:'20px 60px'}}>
