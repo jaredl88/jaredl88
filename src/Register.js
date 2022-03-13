@@ -10,7 +10,7 @@ const [username, setUserName ] = useState('');
 const [password, setPassword ] = useState('');
 const [email, setEmail ] = useState('');
 const [message, setMessage] = useState(null);
-const apiUrl = 'https://j2b30glms2.execute-api.us-east-1.amazonaws.com/prod/register';
+const apiUrl = '';
 
 const submitHandler =(event) => {
     event.preventDefault();
@@ -30,7 +30,7 @@ const submitHandler =(event) => {
   const requestConfig = {
       //store as envirnment variable later
       headers: {
-     'x-api-key': '341SCwBxjy6KSOErzBmCI4mteixN90yC7L8OD37O',
+     'x-api-key': '',
       }
   }
 
