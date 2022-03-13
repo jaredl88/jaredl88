@@ -12,7 +12,7 @@ import Header from './Components/Header/Header';
 import Home from "./Home";
 import Login from "./Login";
 
-const verifyTokenAPIURL = 'https://j2b30glms2.execute-api.us-east-1.amazonaws.com/prod/verify';
+const verifyTokenAPIURL = '';
 
   
 
@@ -28,7 +28,7 @@ function App() {
     const requestConfig = {
       //store as envirnment variable later
       headers: {
-     'x-api-key': '341SCwBxjy6KSOErzBmCI4mteixN90yC7L8OD37O'
+     'x-api-key': ''
       }
     }
     const requestBody = {
