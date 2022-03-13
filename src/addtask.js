@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import "./addtask.css";
 import {getUser} from './service/auth';
-const apiUrl = 'https://j2b30glms2.execute-api.us-east-1.amazonaws.com/prod/addtask';
+const apiUrl = '';
 
    const Todo = () => {
     const [tName, setTName] = useState('');
@@ -24,7 +24,7 @@ const apiUrl = 'https://j2b30glms2.execute-api.us-east-1.amazonaws.com/prod/addt
     const requestConfig = {
         //store as envirnment variable later
         headers: {
-       'x-api-key': '341SCwBxjy6KSOErzBmCI4mteixN90yC7L8OD37O',
+       'x-api-key': '',
         }
     }
     const requestBody =
