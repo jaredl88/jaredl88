@@ -2,8 +2,8 @@ import "./TaskList.css";
 import {getUser, resetUserSession} from './service/auth';
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
-const apiUrl = 'https://j2b30glms2.execute-api.us-east-1.amazonaws.com/prod/gettasks';
-const apiDeleteUrl = 'https://j2b30glms2.execute-api.us-east-1.amazonaws.com/prod/deletetask';
+const apiUrl = '';
+const apiDeleteUrl = '';
    
 const TaskList = () => {
     const [getResult, setGetResult] = useState([]);
@@ -19,7 +19,7 @@ const TaskList = () => {
       const requestConfig = {
         //store as envirnment variable later
         headers: {
-          'x-api-key': '341SCwBxjy6KSOErzBmCI4mteixN90yC7L8OD37O',
+          'x-api-key': '',
         }
       }
       console.log(tName);
@@ -51,7 +51,7 @@ const TaskList = () => {
           const requestConfig = {
               //store as envirnment variable later
               headers: {
-                'x-api-key': '341SCwBxjy6KSOErzBmCI4mteixN90yC7L8OD37O',
+                'x-api-key': '',
               }
             }
             
