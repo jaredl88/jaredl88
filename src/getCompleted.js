@@ -2,8 +2,8 @@ import "./TaskList.css";
 import {getUser, resetUserSession} from './service/auth';
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
-const apiUrl = 'https://j2b30glms2.execute-api.us-east-1.amazonaws.com/prod/getcompleted';
-const apiAddUrl = 'https://j2b30glms2.execute-api.us-east-1.amazonaws.com/prod/addtask';
+const apiUrl = '';
+const apiAddUrl = '';
    
 const CompletedTaskList = () => {
     const [getResult, setGetResult] = useState([]);
@@ -20,7 +20,7 @@ const CompletedTaskList = () => {
       const requestConfig = {
         //store as envirnment variable later
         headers: {
-          'x-api-key': '341SCwBxjy6KSOErzBmCI4mteixN90yC7L8OD37O',
+          'x-api-key': '',
         }
       }
      
@@ -52,7 +52,7 @@ const CompletedTaskList = () => {
           const requestConfig = {
               //store as envirnment variable later
               headers: {
-                'x-api-key': '341SCwBxjy6KSOErzBmCI4mteixN90yC7L8OD37O',
+                'x-api-key': '',
               }
             }
             
