@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from 'axios';
 import { setUserSession  } from './service/auth';
 import "./Login.css";
-const apiUrl = 'https://j2b30glms2.execute-api.us-east-1.amazonaws.com/prod/login';
+const apiUrl = '';
 
 const Login = (props) => {
     const [username, setUserName] = useState('');
@@ -18,7 +18,7 @@ const Login = (props) => {
             const requestConfig = {
                 //store as envirnment variable later
                 headers: {
-               'x-api-key': '341SCwBxjy6KSOErzBmCI4mteixN90yC7L8OD37O',
+               'x-api-key': '',
                 }
             }
 
