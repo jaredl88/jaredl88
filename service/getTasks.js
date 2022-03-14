@@ -9,9 +9,9 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 const userTable = 'todoUsers';
 
 
-async function getTask(){
-    
-    const getResponse = await getTasks();
+async function getTask(event){
+    const username = event.username;
+    const getResponse = await getTasks(username);
     if(!getResponse)
     {
         return util.buildResponse(503,{
@@ -23,8 +23,8 @@ async function getTask(){
 });
 
 }
-async function getTasks(){
-    const userName = 'jared';
+async function getTasks(username){
+    const userName = username;
     const userTable = 'todoUsers';
   
         const params = {
@@ -37,7 +37,7 @@ async function getTasks(){
         return await dynamodb.query(params).promise().then(response => {
  return response;
 }, error =>{
-    console.log('There is an error getting task: ', error);
+    console.log('There is an error getting tasks: ', error);
 });
         
     
