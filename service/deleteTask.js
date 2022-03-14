@@ -7,30 +7,34 @@ AWS.config.update({
 const util = require('../utils/util');
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const userTable = 'todoUsers';
-const userName = 'jared';
+const completedTable = 'todoCompleted';
 
 async function deleteTask(event){
-    const tName = event.tName;
-    const userName = 'jared';
+    console.log(event.tName);
+    const userName = event.username;
+    const taskName = event.tName;
+    const taskTxt = event.tTxt;
     const tsk = {
         username: userName,
-        tName: tName
+        tName: taskName,
+        tTxt: taskTxt
     };
 const deleteTaskResponse = await deleteT(tsk);
-    if(!deleteTaskResponse){
+const addCompletedResponse = await saveCompleted(tsk);
+    if(!deleteTaskResponse || !addCompletedResponse){
         return util.buildResponse(503,{
            message: 'Server Error, Please try again later'
         })
    }
     return util.buildResponse(200, {
-    tName
+    taskName
    });
 
 
 
 async function deleteT(tsk){
-    const taskName = tsk.tName; 
-    const userName = tsk.userName;
+    console.log(tsk.username);
+    console.log(tsk.tName);
     var params = {
         TableName: userTable,
         Key: {
@@ -38,7 +42,7 @@ async function deleteT(tsk){
         },
         UpdateExpression: "REMOVE #taskName",
         ExpressionAttributeNames: {
-          "#taskName": taskName  
+          "#taskName": tsk.tName  
         },
         ReturnValues: "ALL_OLD"
     };
@@ -49,5 +53,27 @@ async function deleteT(tsk){
        });
 
 }
+ async function saveCompleted(tsk){
+    const params = {
+            TableName: completedTable,
+            Key: {
+                "username": tsk.username,
+            },
+            UpdateExpression: "SET #TaskName = :val",
+            ExpressionAttributeNames: {
+                "#TaskName": tsk.tName,
+            },
+            ExpressionAttributeValues: {
+                ":val": tsk.tTxt
+            }
+        };
+    return await dynamodb.update(params).promise().then(response => {
+ return tsk.tName;
+}, error =>{
+    console.log('There is an error getting task: ', error);
+});
+    
+ }
+
 }
 module.exports.deleteTask = deleteTask;
