@@ -8,6 +8,8 @@ AWS.config.update({
 const util = require('../utils/util');
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const userTable = 'todoLogin';
+const taskTable = 'todoUsers';
+const completedTable ='todoCompleted';
 const bcryptjs = require('bcryptjs');
 
 async function register(event){
@@ -15,7 +17,7 @@ async function register(event){
     const userEmail = event.email;
     const userPassword = event.password;
     const name = event.name;
-  //Checks to make sure all fields have been entered
+
     if(!userName || !userEmail || !userPassword || !name)
     {
          return util.buildResponse(401,{
@@ -23,14 +25,12 @@ async function register(event){
         })
 
     }
-  //checks db to make sure the user name does not already exist
     const dUser = await getUser(userName.toLowerCase().trim());
     if(dUser && dUser.username){
         return util.buildResponse(401,{
             message: 'Username is already being used, choose a different username'
         })
     }
-    //hashes and salts password to make it unreadable inside the db pws that are the same will also have different hash values
     const saltRounds = 10;
     const hashpassword = await bcryptjs.hash(userPassword, saltRounds);
     
@@ -40,9 +40,11 @@ async function register(event){
       useremail: userEmail,
       password: hashpassword
   }  
-  //Checks to see if the save function is successful
+ 
    const saveTaskResponse = await saveUser(user);
-   if(!saveTaskResponse){
+   const saveTaskKeyResponse = await addTaskKey(user);
+   const saveCompletedResponse = await addCompletedKey(user);
+   if(!saveTaskResponse || !saveTaskKeyResponse || !saveCompletedResponse){
         return util.buildResponse(503,{
            message: 'Server Error, Please try again later'
         })
@@ -64,7 +66,7 @@ async function register(event){
         console.log('There is an error getting user: ', error);
     })
     }
-//Save registration information in the database
+
  async function saveUser(user){
  
    
@@ -73,16 +75,14 @@ async function register(event){
             Key: {
                 "username": user.username
             },
-            UpdateExpression: "SET #Name = :valN, #UserName = :val, #UserEmail = :valE, #UserPassword = :valP",
+            UpdateExpression: "SET #Name = :valN, #UserEmail = :valE, #UserPassword = :valP",
             ExpressionAttributeNames: {
                 "#Name": "Name",
-                "#UserName": "Username",
                 "#UserEmail": "Email",
                 "#UserPassword": "Password"
             },
             ExpressionAttributeValues: {
                 ":valN": user.name,
-                ":val": user.username,
                 ":valE": user.useremail,
                 ":valP": user.password
             }
@@ -92,10 +92,37 @@ async function register(event){
 }, error =>{
     console.log('There is an error getting task: ', error);
 });
-   
+ 
+ }
+ async function addTaskKey(user) {
+       const params = {
+            TableName: taskTable,
+            Key: {
+                "username": user.username
+            }
+        };
+    return await dynamodb.update(params).promise().then(response => {
+ return true;
+}, error =>{
+    console.log('There is an error getting task: ', error);
+});
+     
  }
 
- 
+ async function addCompletedKey(user) {
+       const params = {
+            TableName: completedTable,
+            Key: {
+                "username": user.username
+            },
+        };
+    return await dynamodb.update(params).promise().then(response => {
+ return true;
+}, error =>{
+    console.log('There is an error getting task: ', error);
+});
+     
+ }
 }
 
 module.exports.register = register;
