@@ -1,10 +1,5 @@
 import React, { useState } from "react";
 import { BrowserRouter, Link, Route, Switch, NavLink } from "react-router-dom";
-//import react pro sidebar components
-
-
-
-
 import Home from "../../Home";
 import Login from "../../Login";
 import Todo from "../../addtask";
@@ -15,9 +10,6 @@ import TaskList from "../../TaskList";
 import { resetUserSession } from "../../service/auth";
 import CompletedTaskList from "../../getCompleted";
 const Header = () => {
- 
-    //create initial menuCollapse state using useState hook
-
     const Logout = () =>{
       resetUserSession();
     }
