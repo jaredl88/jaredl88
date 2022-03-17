@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from 'axios';
 import { setUserSession  } from './service/auth';
 import "./Login.css";
-const apiUrl = '';
+const apiUrl = 'https://j2b30glms2.execute-api.us-east-1.amazonaws.com/prod/login';
 
 const Login = (props) => {
     const [username, setUserName] = useState('');
@@ -18,7 +18,7 @@ const Login = (props) => {
             const requestConfig = {
                 //store as envirnment variable later
                 headers: {
-               'x-api-key': '',
+               'x-api-key': '341SCwBxjy6KSOErzBmCI4mteixN90yC7L8OD37O',
                 }
             }
 
@@ -48,15 +48,45 @@ const Login = (props) => {
    
     
     return (
+
         <div className="Login">
-            <form onSubmit={submitHandler}>
-                    <h5>Login</h5>
-                    <label>Username:</label><input  type="text" value={username} onChange={event=> setUserName(event.target.value) } /> <br/>
-                    <label> Password:</label><input type="password" value={password} onChange={event=> setPassword(event.target.value) } /> <br/>
-                    <button type="submit" value="addtask">Login</button>
-                </form>
-                {errorMessage && <p className="message">{errorMessage}</p>}
+        <div class="hero min-h-screen bg-base-200">
+  <div class="hero-content flex-col lg:flex-row-reverse">
+    <div class="text-center lg:text-left">
+      <h1 class="text-5xl font-bold">Login now!</h1>
+      <p class="py-6">Login to view your task list, add new tasks, set tasks to comepleted, and view completed tasks</p>
+    </div>
+    <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+      <div class="card-body">
+      <form onSubmit={submitHandler}>
+        <div class="form-control">
+        
+          <label class="label">
+            <span class="label-text">Username</span>
+          </label>
+          <input type="text" placeholder="username" class="input input-bordered" value={username} onChange={event=> setUserName(event.target.value) }/>
         </div>
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Password</span>
+          </label>
+          <input type="password" placeholder="password" class="input input-bordered" value={password} onChange={event=> setPassword(event.target.value) }/>
+          <label class="label">
+            <a href="#" class="label-text-alt link link-hover">Forgot password?</a>
+          </label>
+        </div>
+        <div class="form-control mt-6">
+          <button class="btn btn-primary" type="submit">Login</button>
+          
+        </div>
+        </form>
+        {errorMessage && <p className="message">{errorMessage}</p>}
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
         
     )
     }
