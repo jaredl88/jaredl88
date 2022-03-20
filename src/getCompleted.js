@@ -1,9 +1,9 @@
-import "./TaskList.css";
+
 import {getUser, resetUserSession} from './service/auth';
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
-const apiUrl = '';
-const apiAddUrl = '';
+const apiUrl = 'https://j2b30glms2.execute-api.us-east-1.amazonaws.com/prod/getcompleted';
+const apiAddUrl = 'https://j2b30glms2.execute-api.us-east-1.amazonaws.com/prod/addtask';
    
 const CompletedTaskList = () => {
     const [getResult, setGetResult] = useState([]);
@@ -20,7 +20,7 @@ const CompletedTaskList = () => {
       const requestConfig = {
         //store as envirnment variable later
         headers: {
-          'x-api-key': '',
+          'x-api-key': '341SCwBxjy6KSOErzBmCI4mteixN90yC7L8OD37O',
         }
       }
      
@@ -52,7 +52,7 @@ const CompletedTaskList = () => {
           const requestConfig = {
               //store as envirnment variable later
               headers: {
-                'x-api-key': '',
+                'x-api-key': '341SCwBxjy6KSOErzBmCI4mteixN90yC7L8OD37O',
               }
             }
             
@@ -76,10 +76,17 @@ const CompletedTaskList = () => {
           taskArray && taskArray.map(taskArrays =>{ if (taskArrays[0] !== 'username' && taskArrays[0] !== 'Username'){
             return(
               <form onSubmit={addTask}>
-              <div key={taskArrays[0]} style={{alignItems:'center',margin:'20px 60px'}}>
-              <h4>{taskArrays[0]}: {taskArrays[1]} <button type="submit" value="submit" onClick={event=> {setTname(taskArrays[0].toString()); setTtxt(taskArrays[1].toString())}}>Add back to list</button></h4><br />
-          
-            </div>
+                          <div key={taskArrays[0]} style={{alignItems:'center',margin:'20px 60px'}}>
+             <div class="divider text-2xl">{taskArrays[0]}</div>
+             <div class="flex flex-col w-full border-opacity-50">
+            <div class="grid h-20 card bg-base-300 rounded-box place-items-center text-xl">{taskArrays[1]}<button class="btn btn-sm bg-black-500" type="submit" value="submit" onClick={event=> {setTname(taskArrays[0].toString()); setTtxt(taskArrays[1].toString())}}>Add back to todo</button></div>
+ 
+
+</div>
+           
+
+       
+         </div>
             </form> 
              
             )

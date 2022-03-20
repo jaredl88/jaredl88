@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from 'axios';
 import { setUserSession  } from './service/auth';
-import "./Login.css";
 const apiUrl = 'https://j2b30glms2.execute-api.us-east-1.amazonaws.com/prod/login';
 
 const Login = (props) => {
@@ -33,6 +32,7 @@ const Login = (props) => {
         axios.post(apiUrl, requestBody, requestConfig).then((response) =>{
             setUserSession(response.data.user, response.data.token);
             props.history.push('/addtask');
+            window.location.reload(false);
         }).catch((error) => {
         if (error.response.status === 401 || error.response.status === 403){
             setErrorMessage(error.response.data.message);
