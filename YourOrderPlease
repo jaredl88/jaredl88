@@ -1,0 +1,27 @@
+
+def listToString(s): 
+    str1 = " "
+    return(str1.join(s))   
+
+def order(sentence):
+    position = []
+    dict = {}
+    li2 = []
+    li =sentence.split()
+    if not sentence:
+        return('')
+    else:
+        for x in sentence:
+            if x.isdigit():
+                position.append(int(x))
+            
+    for i in range(len(position)):
+        ky = position[i]
+        val = li[i]
+        dict.update({str(ky) : str(val)})
+
+    for k in sorted(dict.keys()):
+        li2.append(dict[k])
+        
+    for i in range(len(li2)):
+            return(listToString(li2))
