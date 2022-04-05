@@ -1,6 +1,4 @@
 - 👋 Hi, I’m @jaredl88
-- 👀 I’m interested in Cloud Architecture
-- 🌱 I’m currently learning AWS Solution Archicture
 - 📫 How to reach me jaredl88@hotmail.com
 
 <!---
